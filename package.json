@@ -1,0 +1,30 @@
+{
+  "name": "dht-lite",
+  "version": "0.0.0",
+  "description": "Simple Distributed Hash Table implementation in JavaScript",
+  "main": "index.js",
+  "directories": {
+    "example": "example",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "node test"
+  },
+  "author": "Lsong <hi@lsong.org> (https://lsong.org)",
+  "license": "MIT",
+  "keywords": [
+    "dht"
+  ],
+  "dependencies": {
+    "bencode": "latest"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/song940/node-dht.git"
+  },
+  "bugs": {
+    "url": "https://github.com/song940/node-dht/issues"
+  },
+  "homepage": "https://github.com/song940/node-dht#readme"
+}
