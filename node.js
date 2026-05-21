@@ -20,10 +20,13 @@ class Node extends EventEmitter {
   }
   static encode(node) {
     try {
+      const ipBuf = Buffer.from(node.address.split('.').map(x => parseInt(x)));
+      const portBuf = Buffer.alloc(2);
+      portBuf.writeUInt16BE(node.port);
       return Buffer.concat([
-        node.id,
-        Buffer.from(node.address.split('.').map(x => parseInt(x))),
-        Buffer.from(node.port.toString(16), 'hex')
+        Buffer.isBuffer(node.id) ? node.id : Buffer.from(node.id, 'hex'),
+        ipBuf,
+        portBuf
       ]);
     } catch (e) {
       console.error(e, node);
@@ -44,7 +47,7 @@ class Node extends EventEmitter {
    * @param {*} id 
    */
   distance(id) {
-    return _.closest(this.id, id);
+    return _.xorDistance(this.id, id);
   }
   /**
    * is same node

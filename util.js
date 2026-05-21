@@ -1,24 +1,31 @@
-const crypto  = require('crypto');
+const crypto = require('crypto');
 
 const randomID = (len = 20) => {
   return crypto.randomBytes(len);
 }
 
-const closest = (a, b) => {
-  if(a instanceof Buffer) a = a.toString('hex');
-  if(b instanceof Buffer) b = a.toString('hex');
-  if(a.length !== b.length) throw new Error('must be equal');
-  const res = [];
-  for(let i = 0; i < a.length; i++){
-    res.push(Math.abs(parseInt(a[i], 16) - parseInt(b[i], 16)));
+const xorDistance = (a, b) => {
+  if (Buffer.isBuffer(a)) a = Buffer.from(a);
+  if (Buffer.isBuffer(b)) b = Buffer.from(b);
+  if (a.length !== b.length) throw new Error('IDs must be equal length');
+  const result = Buffer.alloc(a.length);
+  for (let i = 0; i < a.length; i++) {
+    result[i] = a[i] ^ b[i];
   }
-  return res.reduce((distance, n, i) => {
-    distance += Math.pow(16, res.length - i - 1) * n;
-    return distance;
-  }, 0);
-};
+  return result;
+}
+
+const compareDistance = (a, b) => {
+  for (let i = 0; i < a.length; i++) {
+    if (a[i] !== b[i]) {
+      return a[i] < b[i] ? -1 : 1;
+    }
+  }
+  return 0;
+}
 
 module.exports = {
   randomID,
-  closest
+  xorDistance,
+  compareDistance
 };

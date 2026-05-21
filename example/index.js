@@ -30,5 +30,5 @@ dht.listen(6881, function(err){
 
 setInterval(async () => {
   await dht.makeNeighbor();
-  console.log(`current nodes: ${dht.table.nodes.length}`);
+  console.log(`current nodes: ${dht.table.length}`);
 }, 1000);
